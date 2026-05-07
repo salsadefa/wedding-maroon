@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import AmplopDigital from './components/AmplopDigital.jsx'
+import CurtainTransition from './components/CurtainTransition.jsx'
 import MusicPlayer from './components/MusicPlayer.jsx'
 import Navbar from './components/Navbar.jsx'
 import ProfilArkan from './components/ProfilArkan.jsx'
 import ProfilSalsa from './components/ProfilSalsa.jsx'
 import RSVP from './components/RSVP.jsx'
 import SaveTheDate from './components/SaveTheDate.jsx'
-import TheShift from './components/TheShift.jsx'
 import Ucapan from './components/Ucapan.jsx'
 
 const SECTION_IDS = ['anak-daro', 'marapulai', 'tanggal', 'rsvp', 'kado', 'ucapan']
@@ -17,6 +17,8 @@ function App() {
   const [activeSection, setActiveSection] = useState('anak-daro')
   const [progress, setProgress] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [showCurtain, setShowCurtain] = useState(true)
+  const [navbarVisible, setNavbarVisible] = useState(false)
   const scrollContainerRef = useRef(null)
   const autoScrollTimerRef = useRef(null)
   const progressIntervalRef = useRef(null)
@@ -144,6 +146,10 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (!navbarVisible) {
+      return undefined
+    }
+
     startProgressBar()
     startAutoScroll()
 
@@ -151,7 +157,23 @@ function App() {
       window.clearInterval(autoScrollTimerRef.current)
       window.clearInterval(progressIntervalRef.current)
     }
-  }, [activeSection])
+  }, [activeSection, navbarVisible])
+
+  const handleCurtainComplete = () => {
+    setShowCurtain(false)
+    const anakDaro = document.getElementById('anak-daro')
+
+    if (anakDaro) {
+      anakDaro.scrollIntoView({ behavior: 'smooth' })
+    }
+
+    window.setTimeout(() => {
+      setNavbarVisible(true)
+      setActiveSection('anak-daro')
+      startAutoScroll()
+      startProgressBar()
+    }, 600)
+  }
 
   const handleNavClick = (sectionId) => {
     isManualScrollRef.current = true
@@ -181,28 +203,31 @@ function App() {
 
   return (
     <>
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '3px',
-          zIndex: 500,
-          background: 'rgba(255,255,255,0.1)',
-          opacity: isPaused ? 0.5 : 1,
-        }}
-      >
+      {showCurtain ? <CurtainTransition onComplete={handleCurtainComplete} /> : null}
+      {navbarVisible ? (
         <div
           style={{
-            height: '100%',
-            width: `${progress}%`,
-            background: 'linear-gradient(to right, #C49A2A, #F0D080)',
-            transition: 'width 0.03s linear',
-            borderRadius: '0 2px 2px 0',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '3px',
+            zIndex: 500,
+            background: 'rgba(255,255,255,0.1)',
+            opacity: isPaused ? 0.5 : 1,
           }}
-        />
-      </div>
+        >
+          <div
+            style={{
+              height: '100%',
+              width: `${progress}%`,
+              background: 'linear-gradient(to right, #C49A2A, #F0D080)',
+              transition: 'width 0.03s linear',
+              borderRadius: '0 2px 2px 0',
+            }}
+          />
+        </div>
+      ) : null}
       <div
         id="snap-scroll-container"
         ref={scrollContainerRef}
@@ -213,7 +238,6 @@ function App() {
           paddingBottom: '70px',
         }}
       >
-        <TheShift />
         <ProfilSalsa />
         <ProfilArkan />
         <SaveTheDate />
@@ -221,8 +245,10 @@ function App() {
         <AmplopDigital />
         <Ucapan />
       </div>
-      <MusicPlayer />
-      <Navbar activeSection={activeSection} onNavClick={handleNavClick} />
+      {navbarVisible ? <MusicPlayer /> : null}
+      {navbarVisible ? (
+        <Navbar activeSection={activeSection} onNavClick={handleNavClick} />
+      ) : null}
     </>
   )
 }
