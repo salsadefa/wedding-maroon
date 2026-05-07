@@ -136,21 +136,26 @@ function App() {
     }
 
     const handleScroll = () => {
-      const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean)
-      const containerTop = container.scrollTop
-      const viewHeight = container.clientHeight
+      const scrollTop = container.scrollTop
+      const viewportHeight = container.clientHeight
 
-      for (const section of sections) {
-        const sectionTop = section.offsetTop
+      let currentSection = SECTION_IDS[0]
 
-        if (
-          containerTop >= sectionTop - viewHeight / 2 &&
-          containerTop < sectionTop + section.offsetHeight - viewHeight / 2
-        ) {
-          setActiveSection(section.id)
-          break
+      for (const id of SECTION_IDS) {
+        const element = document.getElementById(id)
+
+        if (!element) {
+          continue
+        }
+
+        const elementTop = element.offsetTop
+
+        if (scrollTop >= elementTop - viewportHeight / 2) {
+          currentSection = id
         }
       }
+
+      setActiveSection(currentSection)
 
       isManualScrollRef.current = true
       window.clearInterval(autoScrollTimerRef.current)
@@ -165,6 +170,7 @@ function App() {
     }
 
     container.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
 
     return () => container.removeEventListener('scroll', handleScroll)
   }, [])
