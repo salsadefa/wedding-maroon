@@ -1,4 +1,5 @@
 import AmplopDigital from './components/AmplopDigital.jsx'
+import MusicPlayer from './components/MusicPlayer.jsx'
 import Navbar from './components/Navbar.jsx'
 import ProfilArkan from './components/ProfilArkan.jsx'
 import ProfilSalsa from './components/ProfilSalsa.jsx'
@@ -27,6 +28,7 @@ function App() {
         <AmplopDigital />
         <Ucapan />
       </div>
+      <MusicPlayer />
       <Navbar />
     </>
   )
