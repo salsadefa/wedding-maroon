@@ -1,25 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
-
-function EyeIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#C49A2A"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  )
-}
+import { AnimatePresence, motion, useInView } from 'framer-motion'
 
 function CopyIcon() {
   return (
@@ -60,18 +40,53 @@ function CheckIcon() {
   )
 }
 
-function maskAccountNumber(accountNumber) {
-  return `${accountNumber.slice(0, 3)}${'•'.repeat(
-    Math.max(accountNumber.length - 3, 0),
-  )}`
+const modalBackdropStyle = {
+  position: 'fixed',
+  inset: 0,
+  zIndex: 300,
+  background: 'rgba(0,0,0,0.6)',
+  backdropFilter: 'blur(8px)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '24px',
+}
+
+const modalCardStyle = {
+  background: 'rgba(123, 26, 26, 0.85)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  border: '1px solid rgba(196, 154, 42, 0.4)',
+  borderRadius: '16px',
+  padding: '28px 24px',
+  width: '100%',
+  maxWidth: '340px',
+  position: 'relative',
+}
+
+const infoCardStyle = {
+  background: 'rgba(255,255,255,0.08)',
+  border: '1px solid rgba(196,154,42,0.3)',
+  borderRadius: '10px',
+  padding: '14px 16px',
+}
+
+function Divider() {
+  return (
+    <div className="relative mx-auto h-4 w-20">
+      <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-gold" />
+      <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-gold bg-maroon" />
+    </div>
+  )
 }
 
 function AmplopDigital() {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, amount: 0.4 })
+  const [showAngpao, setShowAngpao] = useState(false)
+  const [showKado, setShowKado] = useState(false)
   const [copiedAccount, setCopiedAccount] = useState('')
-  const [visibleAccounts, setVisibleAccounts] = useState({})
-  const [showAddress, setShowAddress] = useState(false)
+  const [addressCopied, setAddressCopied] = useState(false)
   const [songketSrc, setSongketSrc] = useState('/songket-padang-mobile.svg')
 
   useEffect(() => {
@@ -89,7 +104,7 @@ function AmplopDigital() {
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  const handleCopy = async (accountNumber) => {
+  const handleCopyAccount = async (accountNumber) => {
     await navigator.clipboard.writeText(accountNumber)
     setCopiedAccount(accountNumber)
 
@@ -98,215 +113,408 @@ function AmplopDigital() {
     }, 1500)
   }
 
+  const handleCopyAddress = async () => {
+    const address =
+      'Jl Bintaro Permai No 5, Bintaro Park View B1015, Pesanggrahan, Jakarta Selatan 12320'
+
+    await navigator.clipboard.writeText(address)
+    setAddressCopied(true)
+
+    window.setTimeout(() => {
+      setAddressCopied(false)
+    }, 1500)
+  }
+
   return (
-    <section
-      id="kado"
-      ref={sectionRef}
-      className="relative flex h-[100dvh] flex-col justify-center overflow-hidden px-8 py-6 font-cormorant"
-      style={{
-        background:
-          'linear-gradient(to bottom, #7B1A1A 0%, #5C1A0E 60%, #3B1F0E 100%)',
-        scrollSnapAlign: 'start',
-        scrollSnapStop: 'always',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
+    <>
+      <section
+        id="kado"
+        ref={sectionRef}
+        className="relative flex h-[100dvh] flex-col justify-center overflow-hidden px-8 py-6 font-cormorant"
         style={{
-          backgroundImage: `url('${songketSrc}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.2,
+          background:
+            'linear-gradient(to bottom, #7B1A1A 0%, #5C1A0E 60%, #3B1F0E 100%)',
+          scrollSnapAlign: 'start',
+          scrollSnapStop: 'always',
+          overflow: 'hidden',
         }}
-      />
+      >
+        <div
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{
+            backgroundImage: `url('${songketSrc}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.2,
+          }}
+        />
 
-      <div className="relative z-10 mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center py-4 text-center">
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
-        >
-          <p className="text-[12px] uppercase tracking-[0.45em] text-ivory">
-            hadiah &amp; kado
-          </p>
-
-          <h2 className="mt-2 text-ivory" style={{ fontSize: 'clamp(16px, 4vw, 20px)' }}>
-            Doa dan kehadiran Anda sudah lebih dari cukup
-          </h2>
-
-          <p className="mt-2 max-w-[280px] text-[13px] text-ivory opacity-70">
-            Namun jika Anda ingin memberikan tanda kasih, kami dengan senang hati
-            menerimanya
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
-          className="relative my-3 h-4 w-20"
-        >
-          <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-gold" />
-          <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-gold bg-maroon" />
-        </motion.div>
-
-        <div className="w-full max-w-md">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.4, delay: 0.4, ease: 'easeOut' }}
-            className="mb-3 text-[11px] uppercase tracking-[0.3em] text-gold"
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center py-4 text-center">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
           >
-            Transfer
-          </motion.p>
+            <p className="text-[12px] uppercase tracking-[0.45em] text-ivory">
+              hadiah &amp; kado
+            </p>
 
-          <div className="flex flex-col gap-[0.6rem]">
-            <motion.div
-              initial={{ x: -40, opacity: 0 }}
-              animate={isInView ? { x: 0, opacity: 1 } : { x: -40, opacity: 0 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
-              className="rounded-[8px] border border-gold bg-[#8C2020] px-4 py-3 text-left"
+            <h2
+              className="mt-2 text-ivory"
+              style={{ fontSize: 'clamp(16px, 4vw, 20px)' }}
             >
-              <p className="text-[13px] font-medium uppercase tracking-[0.3em] text-ivory">
-                BCA
-              </p>
-              <p className="mt-[2px] text-[12px] text-gold">
-                Salsabila Dectylana Fajari
-              </p>
-              <div className="mt-1.5 flex items-center justify-between gap-3">
-                <p className="text-[18px] font-medium text-ivory">
-                  {visibleAccounts['1740394122']
-                    ? '1740394122'
-                    : maskAccountNumber('1740394122')}
-                </p>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setVisibleAccounts((current) => ({
-                        ...current,
-                        '1740394122': !current['1740394122'],
-                      }))
-                    }
-                    className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-gold bg-transparent"
-                    aria-label="Tampilkan atau sembunyikan nomor rekening BCA"
-                  >
-                    <EyeIcon />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy('1740394122')}
-                    className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-gold bg-transparent"
-                    aria-label="Salin nomor rekening BCA"
-                  >
-                    {copiedAccount === '1740394122' ? <CheckIcon /> : <CopyIcon />}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+              Doa dan kehadiran Anda sudah lebih dari cukup
+            </h2>
 
-            <motion.div
-              initial={{ x: 40, opacity: 0 }}
-              animate={isInView ? { x: 0, opacity: 1 } : { x: 40, opacity: 0 }}
-              transition={{ duration: 0.6, delay: 0.7, ease: 'easeOut' }}
-              className="rounded-[8px] border border-gold bg-[#8C2020] px-4 py-3 text-left"
-            >
-              <p className="text-[13px] font-medium uppercase tracking-[0.3em] text-ivory">
-                Bank Mandiri
-              </p>
-              <p className="mt-[2px] text-[12px] text-gold">
-                I Nyoman Krisna Arka
-              </p>
-              <div className="mt-1.5 flex items-center justify-between gap-3">
-                <p className="text-[18px] font-medium text-ivory">
-                  {visibleAccounts['1020012219405']
-                    ? '1020012219405'
-                    : maskAccountNumber('1020012219405')}
-                </p>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setVisibleAccounts((current) => ({
-                        ...current,
-                        '1020012219405': !current['1020012219405'],
-                      }))
-                    }
-                    className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-gold bg-transparent"
-                    aria-label="Tampilkan atau sembunyikan nomor rekening Mandiri"
-                  >
-                    <EyeIcon />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy('1020012219405')}
-                    className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-gold bg-transparent"
-                    aria-label="Salin nomor rekening Mandiri"
-                  >
-                    {copiedAccount === '1020012219405' ? <CheckIcon /> : <CopyIcon />}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.4, delay: 0.9, ease: 'easeOut' }}
-          className="relative my-6 h-4 w-20"
-        >
-          <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-gold" />
-          <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-gold bg-maroon" />
-        </motion.div>
-
-        <div className="w-full max-w-md">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.4, delay: 1.0, ease: 'easeOut' }}
-            className="mb-3 text-[11px] uppercase tracking-[0.3em] text-gold"
-          >
-            Kirim Kado
-          </motion.p>
+            <p className="mt-2 max-w-[280px] text-[13px] text-ivory opacity-70">
+              Namun jika Anda ingin memberikan tanda kasih, kami dengan senang hati
+              menerimanya
+            </p>
+          </motion.div>
 
           <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={isInView ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
-            transition={{ duration: 0.6, delay: 1.1, ease: 'easeOut' }}
-            className="rounded-[8px] border border-gold bg-[#8C2020] p-4 text-center"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
+            className="my-4"
           >
-            <p className="text-[14px] font-medium text-ivory">
-              Salsabila Fajari
-            </p>
-            <p className="mt-2 text-[13px] leading-relaxed text-ivory">
-              {showAddress
-                ? 'Jl Bintaro Permai No 5, Bintaro Park View B1015, Pesanggrahan, Jakarta Selatan 12320'
-                : '••• ••••••• ••• •, ••••••••••, •••••••••••• •••••'}
-            </p>
+            <Divider />
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.45, ease: 'easeOut' }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              width: '100%',
+              maxWidth: '280px',
+              margin: '0 auto',
+            }}
+          >
             <button
               type="button"
-              onClick={() => setShowAddress((current) => !current)}
-              className="mt-4 rounded-[6px] border border-gold bg-transparent px-[14px] py-1.5 text-[12px] text-gold"
+              onClick={() => setShowAngpao(true)}
+              style={{
+                background: 'transparent',
+                border: '1px solid #C49A2A',
+                borderRadius: '8px',
+                padding: '14px 24px',
+                color: '#C49A2A',
+                fontFamily: 'Cormorant Garamond',
+                fontSize: '16px',
+                letterSpacing: '0.05em',
+                cursor: 'pointer',
+                width: '100%',
+              }}
             >
-              {showAddress ? 'Sembunyikan Alamat' : 'Tampilkan Alamat'}
+              💝 Kirim Angpao
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowKado(true)}
+              style={{
+                background: 'transparent',
+                border: '1px solid #C49A2A',
+                borderRadius: '8px',
+                padding: '14px 24px',
+                color: '#C49A2A',
+                fontFamily: 'Cormorant Garamond',
+                fontSize: '16px',
+                letterSpacing: '0.05em',
+                cursor: 'pointer',
+                width: '100%',
+              }}
+            >
+              🎁 Kirim Kado
             </button>
           </motion.div>
-        </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.5, delay: 1.3, ease: 'easeOut' }}
-          className="mt-6 text-[13px] italic text-ivory opacity-70"
-        >
-          Terima kasih atas kebaikan hati Anda
-        </motion.p>
-      </div>
-    </section>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.6, ease: 'easeOut' }}
+            className="mt-6 text-[13px] italic text-ivory opacity-70"
+          >
+            Terima kasih atas kebaikan hati Anda
+          </motion.p>
+        </div>
+      </section>
+
+      <AnimatePresence>
+        {showAngpao ? (
+          <motion.div
+            key="angpao-modal"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            style={modalBackdropStyle}
+            onClick={() => setShowAngpao(false)}
+          >
+            <div style={modalCardStyle} onClick={(event) => event.stopPropagation()}>
+              <button
+                type="button"
+                onClick={() => setShowAngpao(false)}
+                style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '16px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#C49A2A',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                }}
+                aria-label="Tutup modal angpao"
+              >
+                ✕
+              </button>
+
+              <h3
+                style={{
+                  color: '#F5E6C8',
+                  fontSize: '20px',
+                  textAlign: 'center',
+                  marginBottom: '20px',
+                }}
+              >
+                Kirim Angpao
+              </h3>
+
+              <Divider />
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+                <div style={infoCardStyle}>
+                  <p
+                    style={{
+                      color: '#C49A2A',
+                      fontSize: '11px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.14em',
+                    }}
+                  >
+                    BCA
+                  </p>
+                  <p style={{ color: '#F5E6C8', fontSize: '13px', marginTop: '2px' }}>
+                    Salsabila Dectylana Fajari
+                  </p>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '12px',
+                      marginTop: '8px',
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: '#F5E6C8',
+                        fontSize: '20px',
+                        fontFamily: 'Cormorant Garamond',
+                        fontWeight: 500,
+                        margin: 0,
+                      }}
+                    >
+                      1740394122
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyAccount('1740394122')}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      aria-label="Salin nomor rekening BCA"
+                    >
+                      {copiedAccount === '1740394122' ? <CheckIcon /> : <CopyIcon />}
+                    </button>
+                  </div>
+                </div>
+
+                <div style={infoCardStyle}>
+                  <p
+                    style={{
+                      color: '#C49A2A',
+                      fontSize: '11px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.14em',
+                    }}
+                  >
+                    Bank Mandiri
+                  </p>
+                  <p style={{ color: '#F5E6C8', fontSize: '13px', marginTop: '2px' }}>
+                    I Nyoman Krisna Arka
+                  </p>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '12px',
+                      marginTop: '8px',
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: '#F5E6C8',
+                        fontSize: '20px',
+                        fontFamily: 'Cormorant Garamond',
+                        fontWeight: 500,
+                        margin: 0,
+                      }}
+                    >
+                      1020012219405
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyAccount('1020012219405')}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      aria-label="Salin nomor rekening Mandiri"
+                    >
+                      {copiedAccount === '1020012219405' ? <CheckIcon /> : <CopyIcon />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showKado ? (
+          <motion.div
+            key="kado-modal"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            style={modalBackdropStyle}
+            onClick={() => setShowKado(false)}
+          >
+            <div style={modalCardStyle} onClick={(event) => event.stopPropagation()}>
+              <button
+                type="button"
+                onClick={() => setShowKado(false)}
+                style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '16px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#C49A2A',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                }}
+                aria-label="Tutup modal kado"
+              >
+                ✕
+              </button>
+
+              <h3
+                style={{
+                  color: '#F5E6C8',
+                  fontSize: '20px',
+                  textAlign: 'center',
+                  marginBottom: '20px',
+                }}
+              >
+                Kirim Kado
+              </h3>
+
+              <Divider />
+
+              <div style={{ ...infoCardStyle, marginTop: '16px' }}>
+                <p
+                  style={{
+                    color: '#C49A2A',
+                    fontSize: '11px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.14em',
+                  }}
+                >
+                  Penerima
+                </p>
+                <p
+                  style={{
+                    color: '#F5E6C8',
+                    fontSize: '15px',
+                    fontWeight: 500,
+                    marginTop: '4px',
+                  }}
+                >
+                  Salsabila Fajari
+                </p>
+                <div
+                  style={{
+                    height: '1px',
+                    background: 'rgba(245,230,200,0.2)',
+                    margin: '10px 0',
+                  }}
+                />
+                <p
+                  style={{
+                    color: '#C49A2A',
+                    fontSize: '11px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.14em',
+                  }}
+                >
+                  Alamat
+                </p>
+                <p
+                  style={{
+                    color: '#F5E6C8',
+                    fontSize: '13px',
+                    lineHeight: 1.6,
+                    marginTop: '4px',
+                  }}
+                >
+                  Jl Bintaro Permai No 5, Bintaro Park View B1015, Pesanggrahan,
+                  Jakarta Selatan 12320
+                </p>
+                <div style={{ textAlign: 'center', marginTop: '12px' }}>
+                  <button
+                    type="button"
+                    onClick={handleCopyAddress}
+                    style={{
+                      border: '1px solid #C49A2A',
+                      color: '#C49A2A',
+                      background: 'transparent',
+                      borderRadius: '6px',
+                      padding: '6px 16px',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {addressCopied ? 'Tersalin!' : 'Salin Alamat'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </>
   )
 }
 
