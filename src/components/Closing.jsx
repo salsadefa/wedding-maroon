@@ -52,6 +52,7 @@ function Closing() {
       className=""
       style={{
         minHeight: '100dvh',
+        height: '100dvh',
         width: '100vw',
         maxWidth: '100vw',
         position: 'relative',
@@ -103,7 +104,7 @@ function Closing() {
         className="relative z-[2] flex w-full flex-col items-center justify-center px-8 py-8 text-center"
         style={{
           minHeight: '100dvh',
-          gap: '0.25rem',
+          gap: '0.5rem',
           alignItems: 'center',
           width: '100%',
           maxWidth: 'none',
@@ -127,11 +128,11 @@ function Closing() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
               transition={{ delay: 0.1, duration: 0.8, ease: 'easeOut' }}
               style={{
-                width: 'min(180px, 45vw)',
+                width: 'min(150px, 38vw)',
                 objectFit: 'contain',
                 filter:
                   'drop-shadow(0 4px 20px rgba(196,154,42,0.5)) sepia(1) saturate(2) hue-rotate(5deg) brightness(1.1)',
-                marginBottom: '16px',
+                marginBottom: '0.25rem',
                 zIndex: 3,
                 position: 'relative',
               }}
@@ -144,10 +145,10 @@ function Closing() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
               style={{
-                width: '220px',
-                height: '290px',
+                width: '200px',
+                height: '260px',
                 clipPath:
-                  "path('M 110,0 C 165,0 220,55 220,110 L 220,290 L 0,290 L 0,110 C 0,55 55,0 110,0 Z')",
+                  "path('M 100,0 C 150,0 200,50 200,100 L 200,260 L 0,260 L 0,100 C 0,50 50,0 100,0 Z')",
                 overflow: 'hidden',
                 margin: '0 auto',
                 filter: 'drop-shadow(0 0 3px #C49A2A) drop-shadow(0 0 8px rgba(196,154,42,0.5))',
@@ -169,8 +170,7 @@ function Closing() {
           </div>
         </div>
 
-        <Divider marginTop="1.5rem" />
-
+        <Divider marginTop="0.25rem" />
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
@@ -179,11 +179,11 @@ function Closing() {
           <h2
             style={{
               fontFamily: 'Cormorant Garamond',
-              fontSize: 'clamp(28px, 7vw, 36px)',
+              fontSize: 'clamp(24px, 5vw, 30px)',
               fontWeight: 500,
               color: '#F5E6C8',
               textAlign: 'center',
-              marginTop: '0.5rem',
+              marginTop: '0.25rem',
               textShadow: '0 0 20px rgba(196,154,42,0.6)',
             }}
           >
@@ -203,18 +203,18 @@ function Closing() {
           </p>
         </motion.div>
 
-        <Divider marginTop="1rem" marginBottom="1rem" />
+        <Divider marginTop="0.25rem" marginBottom="0.25rem" />
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 1.0, duration: 0.8, ease: 'easeOut' }}
           style={{
-            maxWidth: '280px',
+            maxWidth: '260px',
             margin: '0 auto',
             fontFamily: 'Cormorant Garamond',
             fontStyle: 'italic',
-            fontSize: '14px',
+            fontSize: '12px',
             color: 'rgba(245,230,200,0.85)',
             lineHeight: 1.8,
             textAlign: 'center',
@@ -225,19 +225,42 @@ function Closing() {
           tidak mudah.
         </motion.p>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 1.2, duration: 0.6, ease: 'easeOut' }}
-          style={{
-            color: '#C49A2A',
-            fontSize: '12px',
-            letterSpacing: '0.08em',
-            marginTop: '1rem',
-          }}
+          style={{ marginTop: '1rem', textAlign: 'center' }}
         >
-          #SalsaDanArkan2026
-        </motion.p>
+          <p
+            style={{
+              fontFamily: 'Cormorant Garamond',
+              fontSize: '11px',
+              color: '#C49A2A',
+              letterSpacing: '0.1em',
+              opacity: 0.7,
+              marginBottom: '4px',
+              textTransform: 'uppercase',
+            }}
+          >
+            Ikuti perjalanan kami
+          </p>
+          <p
+            style={{
+              fontFamily: 'Cormorant Garamond',
+              fontSize: 'clamp(18px, 4vw, 24px)',
+              fontWeight: '600',
+              letterSpacing: '0.05em',
+              background: 'linear-gradient(135deg, #C49A2A 0%, #F0D080 50%, #C49A2A 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: 'none',
+              filter: 'drop-shadow(0 0 8px rgba(196,154,42,0.4))',
+            }}
+          >
+            #SemuaSALSAdirayaKAN
+          </p>
+        </motion.div>
       </div>
     </section>
   )
