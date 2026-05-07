@@ -88,6 +88,14 @@ function App() {
   }, [activeSection])
 
   useEffect(() => {
+    console.log('scrollContainerRef.current:', scrollContainerRef.current)
+    console.log('scrollContainerRef tagName:', scrollContainerRef.current?.tagName)
+    console.log('scrollContainerRef scrollHeight:', scrollContainerRef.current?.scrollHeight)
+    console.log('scrollContainerRef clientHeight:', scrollContainerRef.current?.clientHeight)
+    console.log('scroll container style:', scrollContainerRef.current?.style?.cssText)
+  }, [])
+
+  useEffect(() => {
     let typingTimer = null
 
     const handleInput = (event) => {
@@ -138,6 +146,7 @@ function App() {
     const handleScroll = () => {
       const scrollTop = container.scrollTop
       const viewportHeight = container.clientHeight
+      console.log('scrollTop:', scrollTop, 'viewportHeight:', viewportHeight)
 
       let currentSection = SECTION_IDS[0]
 
@@ -145,16 +154,19 @@ function App() {
         const element = document.getElementById(id)
 
         if (!element) {
+          console.log('MISSING element with id:', id)
           continue
         }
 
         const elementTop = element.offsetTop
+        console.log('id:', id, 'offsetTop:', elementTop)
 
         if (scrollTop >= elementTop - viewportHeight / 2) {
           currentSection = id
         }
       }
 
+      console.log('→ activeSection set to:', currentSection)
       setActiveSection(currentSection)
 
       isManualScrollRef.current = true
@@ -173,7 +185,7 @@ function App() {
     handleScroll()
 
     return () => container.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isLoading])
 
   useEffect(() => {
     if (!navbarVisible) {
