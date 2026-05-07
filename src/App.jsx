@@ -80,27 +80,43 @@ function App() {
   }, [activeSection])
 
   useEffect(() => {
-    const handleFocus = (event) => {
+    let typingTimer = null
+
+    const handleInput = (event) => {
       if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
         isPausedRef.current = true
         setIsPaused(true)
+
+        window.clearTimeout(typingTimer)
+        typingTimer = window.setTimeout(() => {
+          isPausedRef.current = false
+          setIsPaused(false)
+          startProgressBar()
+        }, 5000)
       }
     }
 
-    const handleBlur = (event) => {
-      if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
-        isPausedRef.current = false
-        setIsPaused(false)
-        startProgressBar()
+    const handleButtonClick = (event) => {
+      if (event.target.tagName === 'BUTTON' || event.target.closest('button')) {
+        isPausedRef.current = true
+        setIsPaused(true)
+
+        window.clearTimeout(typingTimer)
+        typingTimer = window.setTimeout(() => {
+          isPausedRef.current = false
+          setIsPaused(false)
+          startProgressBar()
+        }, 5000)
       }
     }
 
-    document.addEventListener('focusin', handleFocus)
-    document.addEventListener('focusout', handleBlur)
+    document.addEventListener('input', handleInput)
+    document.addEventListener('click', handleButtonClick)
 
     return () => {
-      document.removeEventListener('focusin', handleFocus)
-      document.removeEventListener('focusout', handleBlur)
+      document.removeEventListener('input', handleInput)
+      document.removeEventListener('click', handleButtonClick)
+      window.clearTimeout(typingTimer)
     }
   }, [])
 
