@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 function MusicPlayer() {
   const audioRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [hasInteracted, setHasInteracted] = useState(false)
 
   useEffect(() => {
     const audio = audioRef.current
@@ -15,26 +14,27 @@ function MusicPlayer() {
     audio.volume = 0.4
     audio.loop = true
 
-    const handleFirstInteraction = () => {
-      if (!hasInteracted) {
-        audio
-          .play()
-          .then(() => {
-            setIsPlaying(true)
-            setHasInteracted(true)
-          })
-          .catch(() => {})
-      }
+    const tryPlay = () => {
+      audio.play()
+        .then(() => {
+          setIsPlaying(true)
+          document.removeEventListener('touchstart', tryPlay)
+          document.removeEventListener('click', tryPlay)
+        })
+        .catch(() => {
+          // still blocked, keep listeners
+        })
     }
 
-    document.addEventListener('click', handleFirstInteraction, { once: true })
-    document.addEventListener('touchstart', handleFirstInteraction, { once: true })
+    tryPlay()
+    document.addEventListener('touchstart', tryPlay, { passive: true })
+    document.addEventListener('click', tryPlay)
 
     return () => {
-      document.removeEventListener('click', handleFirstInteraction)
-      document.removeEventListener('touchstart', handleFirstInteraction)
+      document.removeEventListener('touchstart', tryPlay)
+      document.removeEventListener('click', tryPlay)
     }
-  }, [hasInteracted])
+  }, [])
 
   const toggleMusic = (event) => {
     event.stopPropagation()
@@ -50,7 +50,6 @@ function MusicPlayer() {
     } else {
       audio.play().then(() => {
         setIsPlaying(true)
-        setHasInteracted(true)
       }).catch(() => {})
     }
   }
