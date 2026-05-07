@@ -7,6 +7,7 @@ function ProfilSalsa() {
 
   return (
     <section
+      id="anak-daro"
       ref={sectionRef}
       className="relative isolate flex h-[100dvh] items-center justify-center bg-maroon px-8 py-4 font-cormorant"
       style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always', overflow: 'visible' }}

@@ -1,156 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
-const navItems = [
-  { id: 'tanggal', label: 'Tanggal', Icon: CalendarIcon },
-  { id: 'rsvp', label: 'RSVP', Icon: EnvelopeIcon },
-  { id: 'kado', label: 'Kirim Kado', Icon: GiftIcon },
-  { id: 'ucapan', label: 'Ucapan', Icon: ChatIcon },
+const NAV_ITEMS = [
+  { id: 'anak-daro', label: 'Anak Daro', icon: '👰' },
+  { id: 'marapulai', label: 'Marapulai', icon: '🤵' },
+  { id: 'tanggal', label: 'Tanggal', icon: '📅' },
+  { id: 'rsvp', label: 'RSVP', icon: '✉️' },
+  { id: 'kado', label: 'Kirim Kado', icon: '🎁' },
+  { id: 'ucapan', label: 'Ucapan', icon: '💬' },
 ]
 
-function CalendarIcon({ active }) {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={active ? '#C49A2A' : '#C49A2A'}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M7 2v4" />
-      <path d="M17 2v4" />
-      <rect x="3" y="5" width="18" height="16" rx="2" />
-      <path d="M3 10h18" />
-    </svg>
-  )
-}
-
-function EnvelopeIcon({ active }) {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={active ? '#C49A2A' : '#C49A2A'}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m4 7 8 6 8-6" />
-    </svg>
-  )
-}
-
-function GiftIcon({ active }) {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={active ? '#C49A2A' : '#C49A2A'}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 12v8H4v-8" />
-      <path d="M2 7h20v5H2z" />
-      <path d="M12 7v13" />
-      <path d="M12 7H8.5A2.5 2.5 0 1 1 11 4.5V7Z" />
-      <path d="M12 7h3.5A2.5 2.5 0 1 0 13 4.5V7Z" />
-    </svg>
-  )
-}
-
-function ChatIcon({ active }) {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={active ? '#C49A2A' : '#C49A2A'}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.4 8.4 0 0 1-3.7-.8L3 21l1.8-5.2a8.4 8.4 0 0 1-.8-3.8A8.5 8.5 0 1 1 21 11.5Z" />
-    </svg>
-  )
-}
-
-function Navbar() {
-  const [activeSection, setActiveSection] = useState('tanggal')
+function Navbar({ activeSection, onNavClick }) {
+  const trackRef = useRef(null)
 
   useEffect(() => {
-    const container = document.getElementById('snap-scroll-container')
+    const activeIndex = NAV_ITEMS.findIndex((item) => item.id === activeSection)
 
-    if (!container) {
-      return undefined
-    }
-
-    const updateActiveSection = () => {
-      const containerTop = container.getBoundingClientRect().top
-      const containerCenter = container.clientHeight / 2
-
-      let currentSection = activeSection
-      let smallestDistance = Number.POSITIVE_INFINITY
-
-      navItems.forEach(({ id }) => {
-        const section = document.getElementById(id)
-
-        if (!section) {
-          return
-        }
-
-        const rect = section.getBoundingClientRect()
-        const sectionCenter = rect.top - containerTop + rect.height / 2
-        const distance = Math.abs(sectionCenter - containerCenter)
-
-        if (distance < smallestDistance) {
-          smallestDistance = distance
-          currentSection = id
-        }
-      })
-
-      setActiveSection(currentSection)
-    }
-
-    updateActiveSection()
-    container.addEventListener('scroll', updateActiveSection, { passive: true })
-    window.addEventListener('resize', updateActiveSection)
-
-    return () => {
-      container.removeEventListener('scroll', updateActiveSection)
-      window.removeEventListener('resize', updateActiveSection)
+    if (trackRef.current && activeIndex !== -1) {
+      const itemWidth = trackRef.current.scrollWidth / NAV_ITEMS.length
+      const scrollTarget = Math.max(0, (activeIndex - 1) * itemWidth)
+      trackRef.current.scrollTo({ left: scrollTarget, behavior: 'smooth' })
     }
   }, [activeSection])
-
-  const scrollToSection = (sectionId) => {
-    const container = document.getElementById('snap-scroll-container')
-    const section = document.getElementById(sectionId)
-
-    if (!container || !section) {
-      return
-    }
-
-    container.scrollTo({
-      top: section.offsetTop,
-      behavior: 'smooth',
-    })
-  }
 
   return (
     <nav
@@ -160,48 +30,72 @@ function Navbar() {
         left: 0,
         right: 0,
         zIndex: 100,
+        background: 'rgba(123, 26, 26, 0.75)',
         backdropFilter: 'blur(12px)',
-        backgroundColor: 'rgba(123, 26, 26, 0.6)',
+        WebkitBackdropFilter: 'blur(12px)',
         borderTop: '1px solid rgba(196, 154, 42, 0.3)',
-        padding: '8px 0 12px',
+        paddingBottom: 'env(safe-area-inset-bottom)',
       }}
     >
       <div
+        ref={trackRef}
+        className="navbar-track"
         style={{
           display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center',
+          overflowX: 'auto',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          scrollSnapType: 'x mandatory',
         }}
       >
-        {navItems.map(({ id, label, Icon }) => {
-          const isActive = activeSection === id
+        {NAV_ITEMS.map((item) => {
+          const isActive = activeSection === item.id
 
           return (
             <button
-              key={id}
+              key={item.id}
               type="button"
-              onClick={() => scrollToSection(id)}
+              onClick={() => onNavClick(item.id)}
               style={{
-                background: 'transparent',
-                border: 'none',
+                flex: '0 0 25%',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px 4px 10px',
+                background: 'transparent',
+                border: 'none',
                 cursor: 'pointer',
-                padding: '4px 12px',
-                opacity: isActive ? 1 : 0.6,
+                opacity: isActive ? 1 : 0.5,
+                transition: 'opacity 0.3s ease',
+                scrollSnapAlign: 'start',
+                minWidth: '25%',
               }}
             >
-              <Icon active={isActive} />
+              <span style={{ fontSize: '20px', lineHeight: 1 }}>{item.icon}</span>
               <span
                 style={{
-                  marginTop: '4px',
-                  fontSize: '10px',
                   color: isActive ? '#C49A2A' : '#F5E6C8',
+                  fontSize: '10px',
+                  marginTop: '4px',
+                  fontFamily: 'Cormorant Garamond',
+                  letterSpacing: '0.03em',
+                  whiteSpace: 'nowrap',
                 }}
               >
-                {label}
+                {item.label}
               </span>
+              {isActive ? (
+                <div
+                  style={{
+                    width: '20px',
+                    height: '2px',
+                    background: '#C49A2A',
+                    borderRadius: '2px',
+                    marginTop: '4px',
+                  }}
+                />
+              ) : null}
             </button>
           )
         })}
