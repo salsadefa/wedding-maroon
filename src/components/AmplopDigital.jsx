@@ -87,7 +87,16 @@ function AmplopDigital() {
   const [showKado, setShowKado] = useState(false)
   const [copiedAccount, setCopiedAccount] = useState('')
   const [addressCopied, setAddressCopied] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [songketSrc, setSongketSrc] = useState('/songket-padang-mobile.svg')
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth < 768)
+
+    window.addEventListener('resize', update)
+
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   useEffect(() => {
     const update = () => {
@@ -139,21 +148,133 @@ function AmplopDigital() {
           overflow: 'hidden',
         }}
       >
-        <div
-          className="absolute inset-0 z-0 pointer-events-none"
-          style={{
-            backgroundImage: `url('${songketSrc}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.2,
-          }}
-        />
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: `url('${songketSrc}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.2,
+        }}
+      />
 
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center py-4 text-center">
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+      {isMobile && (
+        <>
+          <img
+            src="/bunga-atas.svg"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              objectFit: 'cover',
+              objectPosition: 'top',
+              pointerEvents: 'none',
+              zIndex: 1,
+              animation: 'breathe 4s ease-in-out infinite',
+              transformOrigin: 'center top',
+            }}
+          />
+
+          <img
+            src="/flower-putih.svg"
+            style={{
+              position: 'absolute',
+              top: '-5px',
+              left: '14%',
+              width: 'min(60px, 14vw)',
+              pointerEvents: 'none',
+              zIndex: 2,
+              animation: 'rotateCW 5s ease-in-out infinite',
+              transformOrigin: 'center center',
+            }}
+          />
+
+          <img
+            src="/flower-putih.svg"
+            style={{
+              position: 'absolute',
+              top: '-5px',
+              left: '66%',
+              width: 'min(60px, 14vw)',
+              pointerEvents: 'none',
+              zIndex: 2,
+              animation: 'rotateCW 6s ease-in-out infinite',
+              transformOrigin: 'center center',
+            }}
+          />
+
+          {[
+            { src: '/batik-1.svg', size: 44, duration: 8, top: '18%' },
+            { src: '/batik-2.svg', size: 32, duration: 11, top: '35%' },
+            { src: '/batik-1.svg', size: 38, duration: 7, top: '52%' },
+            { src: '/batik-2.svg', size: 28, duration: 13, top: '68%' },
+          ].map((item, index) => (
+            <img
+              key={`batik-left-${index}`}
+              src={item.src}
+              style={{
+                position: 'absolute',
+                left: '8px',
+                top: item.top,
+                width: `${item.size}px`,
+                height: `${item.size}px`,
+                pointerEvents: 'none',
+                zIndex: 1,
+                animation: `rotateCW ${item.duration}s ease-in-out infinite`,
+                transformOrigin: 'center center',
+                opacity: 0.7,
+              }}
+            />
+          ))}
+
+          {[
+            { src: '/batik-1.svg', size: 36, duration: 9, top: '18%' },
+            { src: '/batik-2.svg', size: 48, duration: 6, top: '35%' },
+            { src: '/batik-1.svg', size: 30, duration: 12, top: '52%' },
+            { src: '/batik-2.svg', size: 42, duration: 8, top: '68%' },
+          ].map((item, index) => (
+            <img
+              key={`batik-right-${index}`}
+              src={item.src}
+              style={{
+                position: 'absolute',
+                right: '8px',
+                top: item.top,
+                width: `${item.size}px`,
+                height: `${item.size}px`,
+                pointerEvents: 'none',
+                zIndex: 1,
+                animation: `rotateCW ${item.duration}s ease-in-out infinite`,
+                transformOrigin: 'center center',
+                opacity: 0.7,
+              }}
+            />
+          ))}
+
+          <img
+            src="/bunga-bawah.svg"
+            style={{
+              position: 'absolute',
+              bottom: '60px',
+              left: 0,
+              width: '100%',
+              objectFit: 'cover',
+              objectPosition: 'bottom',
+              pointerEvents: 'none',
+              zIndex: 1,
+              animation: 'breathe 5s ease-in-out infinite',
+              transformOrigin: 'center bottom',
+            }}
+          />
+        </>
+      )}
+
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center py-4 text-center" style={{ position: 'relative', zIndex: 10 }}>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
           >
             <p className="text-[12px] uppercase tracking-[0.45em] text-ivory">
