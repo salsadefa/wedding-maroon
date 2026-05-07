@@ -104,11 +104,12 @@ function Closing() {
         className="relative z-[2] flex w-full flex-col items-center justify-center px-8 py-8 text-center"
         style={{
           minHeight: '100dvh',
-          gap: '0.5rem',
+          gap: '0.3rem',
           alignItems: 'center',
           width: '100%',
           maxWidth: 'none',
           margin: 0,
+          paddingBottom: '80px',
         }}
       >
         <div
@@ -128,7 +129,7 @@ function Closing() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
               transition={{ delay: 0.1, duration: 0.8, ease: 'easeOut' }}
               style={{
-                width: 'min(150px, 38vw)',
+                width: 'min(120px, 30vw)',
                 objectFit: 'contain',
                 filter:
                   'drop-shadow(0 4px 20px rgba(196,154,42,0.5)) sepia(1) saturate(2) hue-rotate(5deg) brightness(1.1)',
@@ -145,10 +146,10 @@ function Closing() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
               style={{
-                width: '180px',
-                height: '230px',
+                width: '160px',
+                height: '210px',
                 clipPath:
-                  "path('M 90,0 C 135,0 180,45 180,90 L 180,230 L 0,230 L 0,90 C 0,45 45,0 90,0 Z')",
+                  "path('M 80,0 C 120,0 160,40 160,80 L 160,210 L 0,210 L 0,80 C 0,40 40,0 80,0 Z')",
                 overflow: 'hidden',
                 margin: '0 auto',
                 marginTop: '12px',
@@ -171,7 +172,7 @@ function Closing() {
           </div>
         </div>
 
-        <Divider marginTop="0.25rem" />
+        <Divider marginTop="0.5rem" marginBottom="0.5rem" />
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
@@ -180,7 +181,7 @@ function Closing() {
           <h2
             style={{
               fontFamily: 'Cormorant Garamond',
-              fontSize: 'clamp(24px, 5vw, 30px)',
+              fontSize: 'clamp(20px, 4vw, 26px)',
               fontWeight: 500,
               color: '#F5E6C8',
               textAlign: 'center',
@@ -204,18 +205,18 @@ function Closing() {
           </p>
         </motion.div>
 
-        <Divider marginTop="0.25rem" marginBottom="0.25rem" />
+        <Divider marginTop="0.5rem" marginBottom="0.5rem" />
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 1.0, duration: 0.8, ease: 'easeOut' }}
           style={{
-            maxWidth: '260px',
+            maxWidth: '240px',
             margin: '0 auto',
             fontFamily: 'Cormorant Garamond',
             fontStyle: 'italic',
-            fontSize: '12px',
+            fontSize: '11px',
             color: 'rgba(245,230,200,0.85)',
             lineHeight: 1.8,
             textAlign: 'center',
@@ -235,7 +236,7 @@ function Closing() {
           <p
             style={{
               fontFamily: 'Cormorant Garamond',
-              fontSize: '11px',
+              fontSize: '10px',
               color: '#C49A2A',
               letterSpacing: '0.1em',
               opacity: 0.7,
@@ -248,7 +249,7 @@ function Closing() {
           <p
             style={{
               fontFamily: 'Cormorant Garamond',
-              fontSize: 'clamp(18px, 4vw, 24px)',
+              fontSize: 'clamp(16px, 3.5vw, 20px)',
               fontWeight: '600',
               letterSpacing: '0.05em',
               background: 'linear-gradient(135deg, #C49A2A 0%, #F0D080 50%, #C49A2A 100%)',
@@ -259,7 +260,7 @@ function Closing() {
               filter: 'drop-shadow(0 0 8px rgba(196,154,42,0.4))',
             }}
           >
-            #SemuaSALSAdirayaKAN
+            #BerdasARKANcintaSALSA
           </p>
         </motion.div>
       </div>
