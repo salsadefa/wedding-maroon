@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const photos = [
   '/minang-1.jpg',
@@ -183,7 +183,12 @@ function Gallery() {
             <motion.div
               key={`${index}-${offset}-${direction}`}
               animate={{ scale, x, opacity, zIndex }}
-              transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+              transition={{
+                type: 'spring',
+                stiffness: 200,
+                damping: 25,
+                duration: 0.5,
+              }}
               style={{
                 position: 'absolute',
                 width: 'min(200px, 52vw)',
@@ -210,18 +215,42 @@ function Gallery() {
                 }
               }}
             >
-              <img
-                src={photos[index]}
-                alt=""
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  userSelect: 'none',
-                  pointerEvents: 'none',
-                }}
-                draggable={false}
-              />
+              {isCenter ? (
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={photos[index]}
+                    src={photos[index]}
+                    alt=""
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4, ease: 'easeInOut' }}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      position: 'absolute',
+                      inset: 0,
+                    }}
+                    draggable={false}
+                  />
+                </AnimatePresence>
+              ) : (
+                <img
+                  src={photos[index]}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                  }}
+                  draggable={false}
+                />
+              )}
               {!isCenter ? (
                 <div
                   style={{
