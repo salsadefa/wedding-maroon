@@ -124,7 +124,15 @@ function ProfilSalsa() {
               <img
                 src="/salsa-profile.png"
                 alt="Salsabila Dectylana Fajari"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'top center',
+                  transform: 'scale(1.15)',
+                  transformOrigin: 'top center',
+                  display: 'block',
+                }}
               />
             </div>
           </div>
