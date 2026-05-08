@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 const photos = [
   '/minang-1.jpg',
@@ -13,13 +12,59 @@ const photos = [
   '/minang-9.jpg',
 ]
 
+const CARD_CONFIG = [
+  {
+    offset: -2,
+    rotateY: 45,
+    translateX: -240,
+    translateZ: -200,
+    scale: 0.7,
+    opacity: 0.4,
+    blur: 3,
+  },
+  {
+    offset: -1,
+    rotateY: 35,
+    translateX: -140,
+    translateZ: -100,
+    scale: 0.85,
+    opacity: 0.7,
+    blur: 1.5,
+  },
+  {
+    offset: 0,
+    rotateY: 0,
+    translateX: 0,
+    translateZ: 0,
+    scale: 1.0,
+    opacity: 1,
+    blur: 0,
+  },
+  {
+    offset: 1,
+    rotateY: -35,
+    translateX: 140,
+    translateZ: -100,
+    scale: 0.85,
+    opacity: 0.7,
+    blur: 1.5,
+  },
+  {
+    offset: 2,
+    rotateY: -45,
+    translateX: 240,
+    translateZ: -200,
+    scale: 0.7,
+    opacity: 0.4,
+    blur: 3,
+  },
+]
+
 function Gallery() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState(0)
-  const [flipping, setFlipping] = useState(false)
   const [songketSrc, setSongketSrc] = useState('/songket-padang-mobile.svg')
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-  const sectionRef = useRef(null)
+  const [dragStart, setDragStart] = useState(null)
 
   useEffect(() => {
     const update = () => {
@@ -36,38 +81,39 @@ function Gallery() {
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  const goNext = () => {
-    setFlipping(true)
-    window.setTimeout(() => {
-      setDirection(1)
-      setCurrentIndex((prev) => (prev + 1) % photos.length)
-      setFlipping(false)
-    }, 300)
+  const goNext = () => setCurrentIndex((prev) => (prev + 1) % photos.length)
+  const goPrev = () =>
+    setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length)
+
+  const handleTouchStart = (event) => setDragStart(event.touches[0].clientX)
+
+  const handleTouchEnd = (event) => {
+    if (dragStart === null) return
+
+    const diff = dragStart - event.changedTouches[0].clientX
+
+    if (diff > 50) goNext()
+    else if (diff < -50) goPrev()
+
+    setDragStart(null)
   }
 
-  const goPrev = () => {
-    setFlipping(true)
-    window.setTimeout(() => {
-      setDirection(-1)
-      setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length)
-      setFlipping(false)
-    }, 300)
+  const handleMouseDown = (event) => setDragStart(event.clientX)
+
+  const handleMouseUp = (event) => {
+    if (dragStart === null) return
+
+    const diff = dragStart - event.clientX
+
+    if (diff > 50) goNext()
+    else if (diff < -50) goPrev()
+
+    setDragStart(null)
   }
-
-  const getCardIndex = (offset) =>
-    (currentIndex + offset + photos.length) % photos.length
-
-  const visibleCards = [
-    { offset: -2, scale: 0.82, x: '-105%', zIndex: 2, opacity: 0.5 },
-    { offset: -1, scale: 0.91, x: '-55%', zIndex: 3, opacity: 0.75 },
-    { offset: 1, scale: 0.91, x: '55%', zIndex: 3, opacity: 0.75 },
-    { offset: 2, scale: 0.82, x: '105%', zIndex: 2, opacity: 0.5 },
-  ]
 
   return (
     <section
       id="galeri"
-      ref={sectionRef}
       style={{
         height: '100dvh',
         position: 'relative',
@@ -82,7 +128,12 @@ function Gallery() {
         justifyContent: 'center',
         fontFamily: 'Lora, serif',
         gap: '1rem',
+        userSelect: 'none',
       }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     >
       <div
         style={{
@@ -106,8 +157,8 @@ function Gallery() {
       {isMobile ? (
         <>
           {[
-            { src: '/batik-1.svg', size: 36, duration: 9, top: '12%' },
-            { src: '/batik-2.svg', size: 26, duration: 13, top: '75%' },
+            { src: '/batik-1.svg', size: 36, duration: 9, top: '8%' },
+            { src: '/batik-2.svg', size: 26, duration: 13, top: '78%' },
           ].map((item, index) => (
             <img
               key={`bl-${index}`}
@@ -126,8 +177,8 @@ function Gallery() {
             />
           ))}
           {[
-            { src: '/batik-2.svg', size: 40, duration: 8, top: '12%' },
-            { src: '/batik-1.svg', size: 28, duration: 11, top: '75%' },
+            { src: '/batik-2.svg', size: 40, duration: 8, top: '8%' },
+            { src: '/batik-1.svg', size: 28, duration: 11, top: '78%' },
           ].map((item, index) => (
             <img
               key={`br-${index}`}
@@ -155,7 +206,7 @@ function Gallery() {
             letterSpacing: '0.45em',
             textTransform: 'uppercase',
             color: '#F5E6C8',
-            marginBottom: '4px',
+            margin: 0,
           }}
         >
           Galeri
@@ -165,7 +216,7 @@ function Gallery() {
             fontSize: '16px',
             color: '#F5E6C8',
             fontStyle: 'italic',
-            margin: 0,
+            margin: '4px 0 0',
           }}
         >
           Momen bersama
@@ -173,120 +224,85 @@ function Gallery() {
       </div>
 
       <div
-        className="gallery-scene"
         style={{
           position: 'relative',
           zIndex: 10,
           width: '100%',
-          height: 'min(320px, 46vh)',
+          height: 'min(300px, 44vh)',
+          perspective: '1000px',
+          perspectiveOrigin: 'center center',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          perspective: '1000px',
         }}
       >
-        {visibleCards.map(({ offset, scale, x, zIndex, opacity }) => {
-          const index = getCardIndex(offset)
+        {CARD_CONFIG.map(
+          ({
+            offset,
+            rotateY,
+            translateX,
+            translateZ,
+            scale,
+            opacity,
+            blur,
+          }) => {
+            const index = (currentIndex + offset + photos.length) % photos.length
+            const isCenter = offset === 0
 
-          return (
-            <motion.div
-              key={`${index}-${offset}-${direction}`}
-              animate={{ scale, x, opacity, zIndex }}
-              transition={{
-                type: 'spring',
-                stiffness: 200,
-                damping: 25,
-                duration: 0.5,
-              }}
-              style={{
-                position: 'absolute',
-                width: 'min(200px, 52vw)',
-                height: 'min(280px, 42vh)',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                border: '1px solid rgba(196,154,42,0.4)',
-                boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
-                cursor: 'pointer',
-              }}
-              onClick={() => {
-                if (offset > 0) {
-                  setDirection(1)
-                  setCurrentIndex(index)
-                }
-
-                if (offset < 0) {
-                  setDirection(-1)
-                  setCurrentIndex(index)
-                }
-              }}
-            >
-              <img
-                src={photos[index]}
-                alt=""
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  userSelect: 'none',
-                  pointerEvents: 'none',
-                }}
-                draggable={false}
-              />
+            return (
               <div
+                key={`card-${offset}`}
+                onClick={() => {
+                  if (offset > 0) goNext()
+                  if (offset < 0) goPrev()
+                }}
                 style={{
                   position: 'absolute',
-                  inset: 0,
-                  background: 'rgba(0,0,0,0.25)',
+                  width: 'min(180px, 46vw)',
+                  height: 'min(260px, 40vh)',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: isCenter
+                    ? '2px solid #C49A2A'
+                    : '1px solid rgba(196,154,42,0.3)',
+                  boxShadow: isCenter
+                    ? '0 25px 50px rgba(0,0,0,0.5), 0 0 30px rgba(196,154,42,0.15)'
+                    : '0 8px 24px rgba(0,0,0,0.4)',
+                  transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                  opacity,
+                  filter: blur > 0 ? `blur(${blur}px)` : 'none',
+                  transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  cursor: offset !== 0 ? 'pointer' : 'grab',
+                  zIndex: isCenter ? 5 : 3 - Math.abs(offset),
+                  transformStyle: 'preserve-3d',
                 }}
-              />
-            </motion.div>
-          )
-        })}
-
-        <motion.div
-          key={`center-${currentIndex}`}
-          className="gallery-card"
-          animate={{
-            rotateY: flipping ? 90 : 0,
-            scale: flipping ? 0.95 : 1,
-          }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
-          style={{
-            position: 'absolute',
-            width: 'min(200px, 52vw)',
-            height: 'min(280px, 42vh)',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            border: '2px solid #C49A2A',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(196,154,42,0.2)',
-            transformStyle: 'preserve-3d',
-            backfaceVisibility: 'hidden',
-            zIndex: 5,
-          }}
-        >
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={photos[currentIndex]}
-              src={photos[currentIndex]}
-              alt=""
-              initial={{ opacity: 0, rotateY: -90 }}
-              animate={{ opacity: 1, rotateY: 0 }}
-              exit={{ opacity: 0, rotateY: 90 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                userSelect: 'none',
-                pointerEvents: 'none',
-                position: 'absolute',
-                inset: 0,
-                backfaceVisibility: 'hidden',
-              }}
-              draggable={false}
-            />
-          </AnimatePresence>
-        </motion.div>
+              >
+                <img
+                  src={photos[index]}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    transition: 'opacity 0.4s ease',
+                  }}
+                  draggable={false}
+                />
+                {!isCenter ? (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'rgba(0,0,0,0.15)',
+                    }}
+                  />
+                ) : null}
+              </div>
+            )
+          },
+        )}
       </div>
 
       <div
@@ -295,24 +311,25 @@ function Gallery() {
           zIndex: 10,
           display: 'flex',
           alignItems: 'center',
-          gap: '24px',
+          gap: '20px',
         }}
       >
         <button
           onClick={goPrev}
           style={{
-            width: '40px',
-            height: '40px',
+            width: '36px',
+            height: '36px',
             borderRadius: '50%',
             border: '1px solid #C49A2A',
             background: 'rgba(123,26,26,0.6)',
             color: '#C49A2A',
-            fontSize: '18px',
+            fontSize: '20px',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             backdropFilter: 'blur(4px)',
+            transition: 'all 0.2s',
           }}
         >
           ‹
@@ -322,10 +339,7 @@ function Gallery() {
           {photos.map((_, index) => (
             <div
               key={index}
-              onClick={() => {
-                if (index > currentIndex) goNext()
-                else if (index < currentIndex) goPrev()
-              }}
+              onClick={() => setCurrentIndex(index)}
               style={{
                 width: index === currentIndex ? '20px' : '6px',
                 height: '6px',
@@ -344,18 +358,19 @@ function Gallery() {
         <button
           onClick={goNext}
           style={{
-            width: '40px',
-            height: '40px',
+            width: '36px',
+            height: '36px',
             borderRadius: '50%',
             border: '1px solid #C49A2A',
             background: 'rgba(123,26,26,0.6)',
             color: '#C49A2A',
-            fontSize: '18px',
+            fontSize: '20px',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             backdropFilter: 'blur(4px)',
+            transition: 'all 0.2s',
           }}
         >
           ›
