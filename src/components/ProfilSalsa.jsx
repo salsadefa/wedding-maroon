@@ -128,9 +128,9 @@ function ProfilSalsa() {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: 'center 8%',
-                  transform: 'scale(1.3)',
-                  transformOrigin: 'center 8%',
+                  objectPosition: 'center 60%',
+                  transform: 'scale(1.2) translateX(-8px)',
+                  transformOrigin: 'center 50%',
                   display: 'block',
                 }}
               />
