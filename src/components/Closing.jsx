@@ -325,7 +325,7 @@ function Closing() {
               filter: 'drop-shadow(0 0 8px rgba(196,154,42,0.4))',
             }}
           >
-            #BerdasARKANcintaSALSA
+            #SALamonyoJoARKAN
           </p>
         </motion.div>
       </div>
