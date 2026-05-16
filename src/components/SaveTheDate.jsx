@@ -53,10 +53,10 @@ function SaveTheDate() {
   }, [])
 
   const timerItems = [
-    { value: timeLeft.days, label: 'hari' },
-    { value: timeLeft.hours, label: 'jam' },
-    { value: timeLeft.minutes, label: 'menit' },
-    { value: timeLeft.seconds, label: 'detik' },
+    { value: timeLeft.days, label: 'Hari' },
+    { value: timeLeft.hours, label: 'Jam' },
+    { value: timeLeft.minutes, label: 'Menit' },
+    { value: timeLeft.seconds, label: 'Detik' },
   ]
 
   return (
@@ -169,44 +169,78 @@ function SaveTheDate() {
           <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-gold bg-maroon" />
         </motion.div>
 
-        <div
-          className="flex w-full flex-nowrap justify-center gap-2"
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
           style={{
-            flexDirection: 'row',
-            flexWrap: 'nowrap',
+            display: 'flex',
+            gap: '0',
+            alignItems: 'center',
             justifyContent: 'center',
-            gap: '8px',
             width: '100%',
             marginTop: '0.5rem',
           }}
         >
-          {timerItems.map((item, index) => (
-            <motion.div
-              key={item.label}
-              initial={{ y: 20, opacity: 0 }}
-              animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-              transition={{
-                duration: 0.5,
-                delay: 0.5 + index * 0.15,
-                ease: 'easeOut',
-              }}
-              className="rounded-[8px] border border-gold bg-[#8C2020] px-[6px] py-[8px]"
-              style={{
-                width: 'calc(25% - 6px)',
-                minWidth: 0,
-                flexShrink: 1,
-                flexGrow: 0,
-              }}
+          {timerItems.map((unit, index) => (
+            <div
+              key={unit.label}
+              style={{ display: 'flex', alignItems: 'center' }}
             >
-              <p className="text-[18px] font-medium leading-none text-ivory">
-                {String(item.value).padStart(2, '0')}
-              </p>
-              <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-gold">
-                {item.label}
-              </p>
-            </motion.div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '0 12px',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'Lora, serif',
+                    fontSize: 'clamp(36px, 10vw, 56px)',
+                    fontWeight: '400',
+                    fontStyle: 'italic',
+                    color: '#F5E6C8',
+                    lineHeight: 1,
+                    textShadow: '0 0 30px rgba(196,154,42,0.4)',
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {String(unit.value).padStart(2, '0')}
+                </span>
+                <span
+                  style={{
+                    fontFamily: 'Lora, serif',
+                    fontSize: '10px',
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: '#C49A2A',
+                    marginTop: '6px',
+                    fontWeight: '400',
+                  }}
+                >
+                  {unit.label}
+                </span>
+              </div>
+              {index < 3 ? (
+                <span
+                  style={{
+                    fontFamily: 'Lora, serif',
+                    fontSize: 'clamp(28px, 8vw, 44px)',
+                    fontStyle: 'italic',
+                    color: '#C49A2A',
+                    opacity: 0.6,
+                    lineHeight: 1,
+                    marginBottom: '16px',
+                  }}
+                >
+                  ◆
+                </span>
+              ) : null}
+            </div>
           ))}
-        </div>
+        </motion.div>
 
         <div className="mt-[0.5rem] flex w-full flex-col items-center">
           <motion.div
