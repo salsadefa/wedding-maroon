@@ -128,9 +128,9 @@ function ProfilArkan() {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: 'center 15%',
-                  transform: 'scaleX(-1) scale(1.5)',
-                  transformOrigin: 'center 20%',
+                  objectPosition: 'center 8%',
+                  transform: 'scaleX(-1) scale(1.3)',
+                  transformOrigin: 'center 8%',
                   display: 'block',
                 }}
               />
