@@ -175,6 +175,7 @@ function Closing() {
           width: '100%',
           maxWidth: 'none',
           margin: 0,
+          marginTop: '15px',
           paddingBottom: '80px',
         }}
       >
