@@ -75,7 +75,7 @@ function Closing() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         paddingBottom: 'calc(70px + env(safe-area-inset-bottom))',
       }}
     >
@@ -167,12 +167,11 @@ function Closing() {
       ))}
 
       <div
-        className="relative z-[2] flex w-full flex-col items-center justify-center px-8 py-8 text-center"
+        className="relative z-[2] flex w-full flex-col items-center justify-center px-8 py-4 text-center"
         style={{
-          minHeight: '100dvh',
           gap: '0.3rem',
           alignItems: 'center',
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
           width: '100%',
           maxWidth: 'none',
           margin: 0,
