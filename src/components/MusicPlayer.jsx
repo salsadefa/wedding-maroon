@@ -63,7 +63,7 @@ function MusicPlayer() {
           position: 'fixed',
           top: '16px',
           right: '16px',
-          zIndex: 200,
+          zIndex: 90,
           background: 'transparent',
           border: 'none',
           cursor: 'pointer',

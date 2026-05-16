@@ -43,7 +43,7 @@ function CheckIcon() {
 const modalBackdropStyle = {
   position: 'fixed',
   inset: 0,
-  zIndex: 300,
+  zIndex: 90,
   background: 'rgba(0,0,0,0.6)',
   backdropFilter: 'blur(8px)',
   display: 'flex',

@@ -261,7 +261,7 @@ function App() {
                 left: 0,
                 right: 0,
                 height: '3px',
-                zIndex: 500,
+                zIndex: 90,
                 background: 'rgba(255,255,255,0.1)',
                 opacity: isPaused ? 0.5 : 1,
               }}
