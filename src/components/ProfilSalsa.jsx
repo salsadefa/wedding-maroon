@@ -166,6 +166,46 @@ function ProfilSalsa() {
           Alm. Bapak Fitrinaldi, S.T. &amp; Ibu Dessy Monavera, S.P., M.P.
         </motion.p>
 
+        <motion.a
+          initial={{ y: 20, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.8, ease: 'easeOut' }}
+          href="https://instagram.com/salsadefa"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            marginTop: '10px',
+            padding: '5px 14px',
+            borderRadius: '20px',
+            border: '1px solid #C49A2A',
+            background: 'rgba(196,154,42,0.1)',
+            color: '#C49A2A',
+            fontSize: '13px',
+            fontFamily: 'Lora, serif',
+            textDecoration: 'none',
+            letterSpacing: '0.03em',
+          }}
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#C49A2A"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="1" fill="#C49A2A" stroke="none" />
+          </svg>
+          @salsadefa
+        </motion.a>
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
