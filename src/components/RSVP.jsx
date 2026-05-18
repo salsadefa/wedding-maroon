@@ -26,6 +26,28 @@ function RSVP() {
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
+  const fieldStyle = {
+    width: '100%',
+    background: 'rgba(255,255,255,0.08)',
+    border: '1px solid rgba(196,154,42,0.3)',
+    borderRadius: '12px',
+    color: '#F5E6C8',
+    padding: '10px 14px',
+    fontSize: '13px',
+  }
+
+  const glassCardStyle = {
+    width: '100%',
+    maxWidth: '360px',
+    background: 'rgba(123, 26, 26, 0.45)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    borderRadius: '24px',
+    border: '1px solid rgba(196, 154, 42, 0.25)',
+    padding: '20px 20px',
+    margin: '0 auto',
+  }
+
   useEffect(() => {
     const update = () => setIsMobile(window.innerWidth < 768)
 
@@ -131,7 +153,7 @@ function RSVP() {
       id="rsvp"
       data-no-autoscroll="true"
       ref={sectionRef}
-      className="relative flex h-[100dvh] flex-col justify-center overflow-hidden px-4 py-3 font-cormorant"
+      className="relative flex h-[100dvh] flex-col justify-center overflow-hidden px-6 py-3 font-cormorant"
       style={{
         background:
           'linear-gradient(to bottom, #7B1A1A 0%, #5C1A0E 60%, #3B1F0E 100%)',
@@ -239,175 +261,212 @@ function RSVP() {
               <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-gold bg-maroon" />
             </motion.div>
 
-            <div className="flex w-full max-w-md flex-col gap-[0.3rem] text-left">
-              <motion.div
-                initial={{ x: -30, opacity: 0 }}
-                animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
-              >
-                <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
-                  Nama Lengkap
-                </label>
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={(event) => {
-                    setFullName(event.target.value)
-                    if (errorMessage) {
-                      setErrorMessage('')
-                    }
-                  }}
-                  placeholder="Masukkan nama lengkap"
-                  className="w-full rounded-[8px] border border-gold bg-[#8C2020] px-[10px] py-[6px] text-[13px] text-ivory placeholder:text-ivory placeholder:opacity-50 focus:outline-none"
-                />
-              </motion.div>
-
-              <motion.div
-                initial={{ x: -30, opacity: 0 }}
-                animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.55, ease: 'easeOut' }}
-              >
-                <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
-                  Nomor HP
-                </label>
-                <input
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(event) => {
-                    setPhoneNumber(event.target.value)
-                    if (errorMessage) {
-                      setErrorMessage('')
-                    }
-                  }}
-                  placeholder="Masukkan nomor HP"
-                  className="w-full rounded-[8px] border border-gold bg-[#8C2020] px-[10px] py-[6px] text-[13px] text-ivory placeholder:text-ivory placeholder:opacity-50 focus:outline-none"
-                />
-              </motion.div>
-
-              <motion.div
-                initial={{ x: -30, opacity: 0 }}
-                animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.7, ease: 'easeOut' }}
-              >
-                <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
-                  Konfirmasi Kehadiran
-                </label>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAttendance('Hadir')
+            <div style={glassCardStyle}>
+              <div className="flex w-full flex-col gap-[0.45rem] text-left">
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
+                >
+                  <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
+                    Nama Lengkap
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(event) => {
+                      setFullName(event.target.value)
                       if (errorMessage) {
                         setErrorMessage('')
                       }
                     }}
-                    className={`w-1/2 rounded-full border px-2 py-1 text-center text-[13px] transition-colors ${
-                      attendance === 'Hadir'
-                        ? 'border-gold bg-gold font-medium text-maroon'
-                        : 'border-gold bg-transparent text-gold'
-                    }`}
-                  >
-                    Hadir
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAttendance('Tidak Hadir')
+                    placeholder="Masukkan nama lengkap"
+                    style={fieldStyle}
+                    className="placeholder:text-ivory placeholder:opacity-50 focus:outline-none"
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.55, ease: 'easeOut' }}
+                >
+                  <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
+                    Nomor HP
+                  </label>
+                  <input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(event) => {
+                      setPhoneNumber(event.target.value)
                       if (errorMessage) {
                         setErrorMessage('')
                       }
                     }}
-                    className={`w-1/2 rounded-full border px-2 py-1 text-center text-[13px] transition-colors ${
-                      attendance === 'Tidak Hadir'
-                        ? 'border-gold bg-gold font-medium text-maroon'
-                        : 'border-gold bg-transparent text-gold'
-                    }`}
+                    placeholder="Masukkan nomor HP"
+                    style={fieldStyle}
+                    className="placeholder:text-ivory placeholder:opacity-50 focus:outline-none"
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7, ease: 'easeOut' }}
+                >
+                  <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
+                    Konfirmasi Kehadiran
+                  </label>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAttendance('Hadir')
+                        if (errorMessage) {
+                          setErrorMessage('')
+                        }
+                      }}
+                      style={{
+                        width: '50%',
+                        padding: '10px 12px',
+                        textAlign: 'center',
+                        fontSize: '13px',
+                        borderRadius: '12px',
+                        border:
+                          attendance === 'Hadir'
+                            ? '1px solid #C49A2A'
+                            : '1px solid rgba(196,154,42,0.4)',
+                        background:
+                          attendance === 'Hadir'
+                            ? '#C49A2A'
+                            : 'rgba(255,255,255,0.08)',
+                        color: attendance === 'Hadir' ? '#7B1A1A' : '#C49A2A',
+                        fontWeight: attendance === 'Hadir' ? 600 : 400,
+                        transition: 'all 0.25s ease',
+                      }}
+                    >
+                      Hadir
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAttendance('Tidak Hadir')
+                        if (errorMessage) {
+                          setErrorMessage('')
+                        }
+                      }}
+                      style={{
+                        width: '50%',
+                        padding: '10px 12px',
+                        textAlign: 'center',
+                        fontSize: '13px',
+                        borderRadius: '12px',
+                        border:
+                          attendance === 'Tidak Hadir'
+                            ? '1px solid #C49A2A'
+                            : '1px solid rgba(196,154,42,0.4)',
+                        background:
+                          attendance === 'Tidak Hadir'
+                            ? '#C49A2A'
+                            : 'rgba(255,255,255,0.08)',
+                        color:
+                          attendance === 'Tidak Hadir' ? '#7B1A1A' : '#C49A2A',
+                        fontWeight: attendance === 'Tidak Hadir' ? 600 : 400,
+                        transition: 'all 0.25s ease',
+                      }}
+                    >
+                      Tidak Hadir
+                    </button>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.85, ease: 'easeOut' }}
+                >
+                  <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
+                    Jumlah Tamu
+                  </label>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '16px',
+                      background: 'rgba(255,255,255,0.08)',
+                      border: '1px solid rgba(196,154,42,0.3)',
+                      borderRadius: '12px',
+                      padding: '10px 14px',
+                    }}
                   >
-                    Tidak Hadir
-                  </button>
-                </div>
-              </motion.div>
+                    <button
+                      type="button"
+                      onClick={() => setGuestCount((count) => Math.max(1, count - 1))}
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-gold bg-transparent text-gold"
+                    >
+                      -
+                    </button>
+                    <span className="min-w-10 text-center text-[15px] text-ivory">
+                      {guestCount}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setGuestCount((count) => count + 1)}
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-gold bg-transparent text-gold"
+                    >
+                      +
+                    </button>
+                  </div>
+                </motion.div>
 
-              <motion.div
-                initial={{ x: -30, opacity: 0 }}
-                animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.85, ease: 'easeOut' }}
-              >
-                <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
-                  Jumlah Tamu
-                </label>
-                <div className="flex items-center justify-center gap-4 rounded-[8px] border border-gold bg-[#8C2020] px-4 py-2">
-                  <button
-                    type="button"
-                    onClick={() => setGuestCount((count) => Math.max(1, count - 1))}
-                    className="flex h-7 w-7 items-center justify-center rounded-full border border-gold bg-transparent text-gold"
-                  >
-                    -
-                  </button>
-                  <span className="min-w-10 text-center text-[15px] text-ivory">
-                    {guestCount}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setGuestCount((count) => count + 1)}
-                    className="flex h-7 w-7 items-center justify-center rounded-full border border-gold bg-transparent text-gold"
-                  >
-                    +
-                  </button>
-                </div>
-              </motion.div>
+                <motion.div
+                  initial={{ x: -30, opacity: 0 }}
+                  animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.95, ease: 'easeOut' }}
+                >
+                  <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
+                    Pesan untuk Pengantin
+                  </label>
+                  <textarea
+                    value={pesan}
+                    onChange={(event) => {
+                      setPesan(event.target.value)
+                      if (errorMessage) {
+                        setErrorMessage('')
+                      }
+                    }}
+                    placeholder="Tuliskan doa dan pesanmu untuk kami"
+                    style={{
+                      ...fieldStyle,
+                      fontFamily: 'Lora',
+                      height: '96px',
+                      resize: 'none',
+                    }}
+                    className="placeholder:text-ivory placeholder:opacity-50 focus:outline-none"
+                  />
+                </motion.div>
 
-              <motion.div
-                initial={{ x: -30, opacity: 0 }}
-                animate={isInView ? { x: 0, opacity: 1 } : { x: -30, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.95, ease: 'easeOut' }}
-              >
-                <label className="mb-2 block text-[10px] uppercase tracking-[0.3em] text-ivory">
-                  Pesan untuk Pengantin
-                </label>
-                <textarea
-                  value={pesan}
-                  onChange={(event) => {
-                    setPesan(event.target.value)
-                    if (errorMessage) {
-                      setErrorMessage('')
-                    }
-                  }}
-                  placeholder="Tuliskan doa dan pesanmu untuk kami"
-                  style={{
-                    background: '#8C2020',
-                    border: '1px solid #C49A2A',
-                    borderRadius: '8px',
-                    padding: '6px 10px',
-                    color: '#F5E6C8',
-                    fontFamily: 'Lora',
-                    fontSize: '13px',
-                    width: '100%',
-                    height: '70px',
-                    resize: 'none',
-                  }}
-                  className="placeholder:text-ivory placeholder:opacity-50 focus:outline-none"
-                />
-              </motion.div>
+                <motion.button
+                  type="button"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 1.0, ease: 'easeOut' }}
+                  onClick={handleSubmit}
+                  className="mt-2 w-full bg-gold px-4 py-2 text-[14px] font-medium text-maroon"
+                  style={{ borderRadius: '12px' }}
+                >
+                  Kirim Konfirmasi
+                </motion.button>
 
-              <motion.button
-                type="button"
-                initial={{ y: 20, opacity: 0 }}
-                animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 1.0, ease: 'easeOut' }}
-                onClick={handleSubmit}
-                className="mt-1 w-full rounded-[8px] bg-gold px-4 py-2 text-[14px] font-medium text-maroon"
-              >
-                Kirim Konfirmasi
-              </motion.button>
+                {errorMessage ? (
+                  <p className="text-center text-[13px] text-[#FFD7D7]">{errorMessage}</p>
+                ) : null}
 
-              {errorMessage ? (
-                <p className="text-center text-[13px] text-[#FFD7D7]">{errorMessage}</p>
-              ) : null}
-
-              {successMessage ? (
-                <p className="text-center text-[13px] text-gold">{successMessage}</p>
-              ) : null}
+                {successMessage ? (
+                  <p className="text-center text-[13px] text-gold">{successMessage}</p>
+                ) : null}
+              </div>
             </div>
           </div>
         ) : (
