@@ -360,8 +360,10 @@ function Closing() {
             <div
               style={{
                 display: 'flex',
-                gap: '24px',
+                gap: '16px',
                 alignItems: 'center',
+                justifyContent: 'center',
+                flexWrap: 'nowrap',
               }}
             >
               {/* Website */}
@@ -371,15 +373,14 @@ function Closing() {
                 rel="noopener noreferrer"
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
                   gap: '4px',
                   textDecoration: 'none',
                 }}
               >
                 <svg
-                  width="20"
-                  height="20"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="rgba(196,154,42,0.7)"
@@ -396,12 +397,16 @@ function Closing() {
                     fontSize: '9px',
                     color: 'rgba(196,154,42,0.7)',
                     fontFamily: 'Lora, serif',
-                    letterSpacing: '0.05em',
                   }}
                 >
                   duajiwa.com
                 </span>
               </a>
+
+              {/* Divider */}
+              <span style={{ color: 'rgba(196,154,42,0.3)', fontSize: '10px' }}>
+                |
+              </span>
 
               {/* WhatsApp */}
               <a
@@ -410,15 +415,14 @@ function Closing() {
                 rel="noopener noreferrer"
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
                   gap: '4px',
                   textDecoration: 'none',
                 }}
               >
                 <svg
-                  width="20"
-                  height="20"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="rgba(196,154,42,0.7)"
@@ -433,12 +437,16 @@ function Closing() {
                     fontSize: '9px',
                     color: 'rgba(196,154,42,0.7)',
                     fontFamily: 'Lora, serif',
-                    letterSpacing: '0.05em',
                   }}
                 >
                   0822 2070 0245
                 </span>
               </a>
+
+              {/* Divider */}
+              <span style={{ color: 'rgba(196,154,42,0.3)', fontSize: '10px' }}>
+                |
+              </span>
 
               {/* Instagram */}
               <a
@@ -447,15 +455,14 @@ function Closing() {
                 rel="noopener noreferrer"
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
                   gap: '4px',
                   textDecoration: 'none',
                 }}
               >
                 <svg
-                  width="20"
-                  height="20"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="rgba(196,154,42,0.7)"
@@ -478,7 +485,6 @@ function Closing() {
                     fontSize: '9px',
                     color: 'rgba(196,154,42,0.7)',
                     fontFamily: 'Lora, serif',
-                    letterSpacing: '0.05em',
                   }}
                 >
                   duajiwa.invitation
