@@ -61,7 +61,6 @@ function Closing() {
       className=""
       style={{
         minHeight: '100dvh',
-        height: '100dvh',
         width: '100vw',
         maxWidth: '100vw',
         position: 'relative',
@@ -77,7 +76,7 @@ function Closing() {
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: '8px',
-        paddingBottom: 'calc(70px + env(safe-area-inset-bottom))',
+        paddingBottom: 'calc(100px + env(safe-area-inset-bottom))',
       }}
     >
       <div
