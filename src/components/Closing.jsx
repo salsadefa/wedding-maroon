@@ -330,6 +330,162 @@ function Closing() {
           >
             #SALamonyoJoARKAN
           </p>
+
+          {/* Duajiwa Watermark */}
+          <div
+            style={{
+              marginTop: '24px',
+              paddingTop: '16px',
+              borderTop: '1px solid rgba(196,154,42,0.2)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+              width: '100%',
+            }}
+          >
+            {/* Logo */}
+            <img
+              src="/duajiwalogo.png"
+              alt="Duajiwa Invitation"
+              style={{
+                height: '32px',
+                width: 'auto',
+                objectFit: 'contain',
+                opacity: 0.85,
+              }}
+            />
+
+            {/* Icons row */}
+            <div
+              style={{
+                display: 'flex',
+                gap: '24px',
+                alignItems: 'center',
+              }}
+            >
+              {/* Website */}
+              <a
+                href="https://duajiwa.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px',
+                  textDecoration: 'none',
+                }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="rgba(196,154,42,0.7)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+                <span
+                  style={{
+                    fontSize: '9px',
+                    color: 'rgba(196,154,42,0.7)',
+                    fontFamily: 'Lora, serif',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  duajiwa.com
+                </span>
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href="https://api.whatsapp.com/send/?phone=6282220700245&text=Halo%20admin%2C%20saya%20berminat%20untuk%20pesan%20undangan%20digitalnya"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px',
+                  textDecoration: 'none',
+                }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="rgba(196,154,42,0.7)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+                <span
+                  style={{
+                    fontSize: '9px',
+                    color: 'rgba(196,154,42,0.7)',
+                    fontFamily: 'Lora, serif',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  0822 2070 0245
+                </span>
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://instagram.com/duajiwa.invitation"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px',
+                  textDecoration: 'none',
+                }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="rgba(196,154,42,0.7)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="1"
+                    fill="rgba(196,154,42,0.7)"
+                    stroke="none"
+                  />
+                </svg>
+                <span
+                  style={{
+                    fontSize: '9px',
+                    color: 'rgba(196,154,42,0.7)',
+                    fontFamily: 'Lora, serif',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  duajiwa.invitation
+                </span>
+              </a>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
