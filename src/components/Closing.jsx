@@ -261,15 +261,20 @@ function Closing() {
           </h2>
           <p
             style={{
-              color: '#C49A2A',
-              fontSize: '14px',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              textAlign: 'center',
+              fontFamily: 'Lora',
+              fontSize: 'clamp(14px, 3vw, 18px)',
+              fontWeight: '600',
+              letterSpacing: '0.05em',
               marginTop: '0.25rem',
+              background: 'linear-gradient(135deg, #C49A2A 0%, #F0D080 50%, #C49A2A 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: 'none',
+              filter: 'drop-shadow(0 0 8px rgba(196,154,42,0.4))',
             }}
           >
-            21 Juni 2026
+            #SALamonyoJoARKAN
           </p>
         </motion.div>
 
@@ -301,36 +306,6 @@ function Closing() {
           transition={{ delay: 1.2, duration: 0.6, ease: 'easeOut' }}
           style={{ marginTop: '1rem', textAlign: 'center' }}
         >
-          <p
-            style={{
-              fontFamily: 'Lora',
-              fontSize: '10px',
-              color: '#C49A2A',
-              letterSpacing: '0.1em',
-              opacity: 0.7,
-              marginBottom: '4px',
-              textTransform: 'uppercase',
-            }}
-          >
-            Ikuti perjalanan kami
-          </p>
-          <p
-            style={{
-              fontFamily: 'Lora',
-              fontSize: 'clamp(14px, 3vw, 18px)',
-              fontWeight: '600',
-              letterSpacing: '0.05em',
-              background: 'linear-gradient(135deg, #C49A2A 0%, #F0D080 50%, #C49A2A 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              textShadow: 'none',
-              filter: 'drop-shadow(0 0 8px rgba(196,154,42,0.4))',
-            }}
-          >
-            #SALamonyoJoARKAN
-          </p>
-
           {/* Duajiwa Watermark */}
           <div
             style={{
