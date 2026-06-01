@@ -319,6 +319,19 @@ function Closing() {
               width: '100%',
             }}
           >
+            <p
+              style={{
+                fontFamily: 'Lora, serif',
+                fontSize: '11px',
+                fontStyle: 'italic',
+                color: 'rgba(196,154,42,0.6)',
+                margin: '0 0 6px 0',
+                letterSpacing: '0.03em',
+              }}
+            >
+              Buat undanganmu bersama Duajiwa
+            </p>
+
             {/* Logo */}
             <img
               src="/duajiwalogo-white.png"
