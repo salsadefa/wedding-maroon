@@ -321,7 +321,7 @@ function Closing() {
           >
             {/* Logo */}
             <img
-              src="/duajiwalogo.png"
+              src="/duajiwalogo-white.png"
               alt="Duajiwa Invitation"
               style={{
                 height: '32px',
