@@ -80,6 +80,9 @@ function Divider() {
   )
 }
 
+const giftAddress =
+  'Jl. Bintaro Permai No. 5, Apartemen Bintaro Park View B1815, Pesanggrahan, Jakarta Selatan, 12320'
+
 function AmplopDigital() {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, amount: 0.4 })
@@ -123,10 +126,7 @@ function AmplopDigital() {
   }
 
   const handleCopyAddress = async () => {
-    const address =
-      'Jl. Bintaro Permai No. 5, Apartemen Bintaro Park View B1015, Pesanggrahan, Jakarta Selatan, 12320'
-
-    await navigator.clipboard.writeText(address)
+    await navigator.clipboard.writeText(giftAddress)
     setAddressCopied(true)
 
     window.setTimeout(() => {
@@ -627,8 +627,7 @@ function AmplopDigital() {
                     marginTop: '4px',
                   }}
                 >
-                  Jl. Bintaro Permai No. 5, Apartemen Bintaro Park View B1015,
-                  Pesanggrahan, Jakarta Selatan, 12320
+                  {giftAddress}
                 </p>
                 <div style={{ textAlign: 'center', marginTop: '12px' }}>
                   <button
