@@ -138,7 +138,6 @@ function App() {
     const handleScroll = () => {
       const scrollTop = container.scrollTop
       const viewportHeight = container.clientHeight
-      console.log('scrollTop:', scrollTop, 'viewportHeight:', viewportHeight)
 
       let currentSection = SECTION_IDS[0]
 
@@ -146,19 +145,16 @@ function App() {
         const element = document.getElementById(id)
 
         if (!element) {
-          console.log('MISSING element with id:', id)
           continue
         }
 
         const elementTop = element.offsetTop
-        console.log('id:', id, 'offsetTop:', elementTop)
 
         if (scrollTop >= elementTop - viewportHeight / 2) {
           currentSection = id
         }
       }
 
-      console.log('→ activeSection set to:', currentSection)
       setActiveSection(currentSection)
 
       isManualScrollRef.current = true
@@ -184,10 +180,13 @@ function App() {
       return undefined
     }
 
-    startProgressBar()
-    startAutoScroll()
+    const startupTimer = window.setTimeout(() => {
+      startProgressBar()
+      startAutoScroll()
+    }, 0)
 
     return () => {
+      window.clearTimeout(startupTimer)
       window.clearInterval(autoScrollTimerRef.current)
       window.clearInterval(progressIntervalRef.current)
     }

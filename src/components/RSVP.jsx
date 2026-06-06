@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { supabase } from '../lib/supabase'
 
-function Divider() {
-  return (
-    <div className="relative h-4 w-20">
-      <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-gold" />
-      <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-gold bg-maroon" />
-    </div>
-  )
+let supabaseClientPromise
+
+const getSupabaseClient = () => {
+  supabaseClientPromise ||= import('../lib/supabase').then((module) => module.supabase)
+  return supabaseClientPromise
 }
 
 function RSVP() {
@@ -72,20 +69,31 @@ function RSVP() {
   }, [])
 
   useEffect(() => {
+    if (!isInView) {
+      return undefined
+    }
+
+    let ignore = false
+
     const fetchWishes = async () => {
+      const supabase = await getSupabaseClient()
       const { data, error } = await supabase
         .from('wishes')
         .select('nama, pesan')
         .order('created_at', { ascending: false })
         .limit(20)
 
-      if (!error && data) {
+      if (!ignore && !error && data) {
         setWishes(data)
       }
     }
 
     fetchWishes()
-  }, [])
+
+    return () => {
+      ignore = true
+    }
+  }, [isInView])
 
   const handleSubmit = async () => {
     const trimmedName = fullName.trim()
@@ -99,6 +107,7 @@ function RSVP() {
     }
 
     try {
+      const supabase = await getSupabaseClient()
       const { error: rsvpError } = await supabase
         .from('rsvp')
         .insert({

@@ -1,21 +1,18 @@
-import { useMemo, useRef } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+
+const particles = Array.from({ length: 25 }, (_, index) => ({
+  id: index,
+  left: `${Math.random() * 100}%`,
+  size: Math.random() * 3 + 1.5,
+  duration: Math.random() * 6 + 5,
+  delay: Math.random() * 5,
+  opacity: Math.random() * 0.25 + 0.05,
+}))
 
 function ProfilArkan() {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, amount: 0.5 })
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 25 }, (_, index) => ({
-        id: index,
-        left: `${Math.random() * 100}%`,
-        size: Math.random() * 3 + 1.5,
-        duration: Math.random() * 6 + 5,
-        delay: Math.random() * 5,
-        opacity: Math.random() * 0.25 + 0.05,
-      })),
-    [],
-  )
 
   return (
     <section
@@ -127,8 +124,12 @@ function ProfilArkan() {
               }}
             >
               <img
-                src="/arkan-profile.jpg"
+                src="/optimized/arkan-profile.jpg"
                 alt="I Nyoman Krisna Arkandea"
+                width="599"
+                height="900"
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: '100%',
                   height: '100%',

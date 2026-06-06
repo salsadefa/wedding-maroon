@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 
 const photos = [
-  '/minang-1.jpg',
-  '/minang11.png',
-  '/minang-2.jpg',
-  '/minang-3.jpg',
-  '/minang-4.jpg',
-  '/minang-5.jpg',
-  '/minang-6.jpg',
-  '/minang-7.jpg',
-  '/minang-8.jpg',
-  '/minang-9.jpg',
+  '/optimized/minang-1.jpg',
+  '/optimized/minang11.jpg',
+  '/optimized/minang-2.jpg',
+  '/optimized/minang-3.jpg',
+  '/optimized/minang-4.jpg',
+  '/optimized/minang-5.jpg',
+  '/optimized/minang-6.jpg',
+  '/optimized/minang-7.jpg',
+  '/optimized/minang-8.jpg',
+  '/optimized/minang-9.jpg',
 ]
 
 function Gallery() {
@@ -246,6 +246,10 @@ function Gallery() {
             <img
               src={src}
               alt=""
+              width={src === '/optimized/minang11.jpg' ? 1400 : 599}
+              height={src === '/optimized/minang11.jpg' ? 933 : 900}
+              loading="lazy"
+              decoding="async"
               style={{
                 width: '100%',
                 height: '100%',

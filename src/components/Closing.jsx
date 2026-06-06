@@ -1,5 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+
+const particles = Array.from({ length: 40 }, (_, index) => ({
+  id: index,
+  left: `${Math.random() * 100}%`,
+  size: Math.random() * 4 + 2,
+  duration: Math.random() * 8 + 6,
+  delay: Math.random() * 6,
+  opacity: Math.random() * 0.4 + 0.1,
+}))
 
 function Divider({ marginTop = '1rem', marginBottom = '0' }) {
   return (
@@ -18,18 +27,6 @@ function Closing() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 })
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [songketSrc, setSongketSrc] = useState('/songket-padang-mobile.svg')
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 40 }, (_, index) => ({
-        id: index,
-        left: `${Math.random() * 100}%`,
-        size: Math.random() * 4 + 2,
-        duration: Math.random() * 8 + 6,
-        delay: Math.random() * 6,
-        opacity: Math.random() * 0.4 + 0.1,
-      })),
-    [],
-  )
 
   useEffect(() => {
     const update = () => setIsMobile(window.innerWidth < 768)
